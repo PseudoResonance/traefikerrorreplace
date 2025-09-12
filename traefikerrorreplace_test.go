@@ -1,4 +1,4 @@
-package cloudflarewarp_test
+package traefikerrorreplace_test
 
 import (
 	"context"

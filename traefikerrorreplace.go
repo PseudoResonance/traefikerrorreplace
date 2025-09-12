@@ -1,5 +1,5 @@
-// Package cloudflarewarp Traefik Plugin.
-package cloudflarewarp
+// Package traefikerrorreplace Traefik Plugin.
+package traefikerrorreplace
 
 import (
 	"bufio"
