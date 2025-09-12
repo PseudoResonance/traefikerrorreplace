@@ -56,12 +56,3 @@ jobs:
 
     - name: Run tests with Yaegi
       run: ${{ github.workspace }}/go/bin/yaegi test .
-
-    - name: Upload log artifacts
-      if: always()
-      uses: actions/upload-artifact@v4
-      with:
-        name: logs
-        if-no-files-found: error
-        path: ${{ github.workspace }}/go/src/github.com/${{ github.repository }}/test/output/*
-        retention-days: 30
