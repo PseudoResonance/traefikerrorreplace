@@ -27,7 +27,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      YAEGI_VERSION: v0.13.0
+      YAEGI_VERSION: v0.16.1
       GOPATH: ${{ github.workspace }}/go
       CGO_ENABLED: 0
     defaults:

@@ -21,12 +21,12 @@ type Config struct {
 func CreateConfig() *Config {
 	return &Config{
 		MatchStatus:   []int{},
-		ReplaceStatus: 200,
+		ReplaceStatus: 200, //nolint:mnd
 		Debug:         false,
 	}
 }
 
-// StatusCodeReplacer is a plugin that replaces status codes
+// StatusCodeReplacer is a plugin that replaces status codes.
 type StatusCodeReplacer struct {
 	next          http.Handler
 	name          string
