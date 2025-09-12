@@ -1,0 +1,10 @@
+displayName: Status Code/Error Replacer
+type: middleware
+import: github.com/PseudoResonance/traefikerrorreplace
+
+summary: Filter and replace status codes to make buggy applications happy
+
+testData:
+  disableDefault: false
+  trustip:
+  - 2400:cb00::/32
