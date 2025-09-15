@@ -59,8 +59,9 @@ done
 if [ ${ENVIRONMENT:=default} = "ci" ]; then
 	git add -A
 	git commit -m "[Release $NEW_VERSION] Bump version from $LATEST_PLUGIN_VERSION\n$UPDATE_DESCRIPTION"
-	git tag -a $NEW_VERSION -m "$UPDATE_DESCRIPTION"
 	git push
+	git tag -a $NEW_VERSION -m "$UPDATE_DESCRIPTION"
+	git push --tags
 else
 	echo "Skipping commit/tag as ENVIRONMENT is not set to ci"
 fi
