@@ -12,17 +12,17 @@ import (
 
 // Config the plugin configuration.
 type Config struct {
+	Debug         bool  `json:"debug,omitempty"`
 	MatchStatus   []int `json:"matchStatus,omitempty"`
 	ReplaceStatus int   `json:"replaceStatus,omitempty"`
-	Debug         bool  `json:"debug,omitempty"`
 }
 
 // CreateConfig creates the default plugin configuration.
 func CreateConfig() *Config {
 	return &Config{
+		Debug:         false,
 		MatchStatus:   []int{},
 		ReplaceStatus: 200, //nolint:mnd
-		Debug:         false,
 	}
 }
 
@@ -30,38 +30,27 @@ func CreateConfig() *Config {
 type StatusCodeReplacer struct {
 	next          http.Handler
 	name          string
-	MatchStatus   []int
-	ReplaceStatus int
-	Debug         bool
+	debug         bool
+	matchStatus   []int
+	replaceStatus int
 }
 
 // New created a new plugin.
 func New(_ context.Context, next http.Handler, config *Config, name string) (http.Handler, error) {
 	statusCodeReplacer := &StatusCodeReplacer{
-		next: next,
-		name: name,
+		next:          next,
+		name:          name,
+		debug:         config.Debug,
+		matchStatus:   config.MatchStatus,
+		replaceStatus: config.ReplaceStatus,
 	}
 
-	if config.MatchStatus != nil {
-		statusCodeReplacer.MatchStatus = append(statusCodeReplacer.MatchStatus, config.MatchStatus...)
+	if statusCodeReplacer.debug {
+		fmt.Printf("Debug printing enabled!")
 	}
-
-	statusCodeReplacer.ReplaceStatus = config.ReplaceStatus
-
-	statusCodeReplacer.Debug = config.Debug
 
 	return statusCodeReplacer, nil
 }
-
-/**
- * The following section is licensed under the following
- * Apache License, Version 2.0, January 2004
- * Copyright 2020 Containous SAS
- * Copyright 2020 Traefik Labs
- *
- * Inspired by the following plugin
- * https://github.com/XciD/traefik-plugin-rewrite-headers/blob/master/rewrite_headers.go
- */
 
 type responseWriter struct {
 	writer        http.ResponseWriter
@@ -72,8 +61,8 @@ type responseWriter struct {
 func (r *StatusCodeReplacer) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 	wrappedWriter := &responseWriter{
 		writer:        rw,
-		matchStatus:   r.MatchStatus,
-		replaceStatus: r.ReplaceStatus,
+		matchStatus:   r.matchStatus,
+		replaceStatus: r.replaceStatus,
 	}
 
 	r.next.ServeHTTP(wrappedWriter, req)
@@ -109,7 +98,3 @@ func (r *responseWriter) Flush() {
 		flusher.Flush()
 	}
 }
-
-/**
- * End section
- */

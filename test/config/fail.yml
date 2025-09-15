@@ -1,0 +1,10 @@
+http:
+  middlewares:
+    traefikerrorreplace:
+      plugin:
+        traefikerrorreplace:
+          debug: true
+          matchStatus:
+            - 500
+            - 503
+          replaceStatus: 404

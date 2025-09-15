@@ -1,0 +1,7 @@
+
+[http]
+  [http.middlewares]
+    [http.middlewares.traefikerrorreplace]
+      [http.middlewares.traefikerrorreplace.plugin]
+        [http.middlewares.traefikerrorreplace.plugin.traefikerrorreplace]
+          debug = true
